@@ -62,4 +62,7 @@ private:
     void initActionsConnections();
     void showStatusMessage(const QString &message);
     void showWriteError(const QString &message);
+
+protected:
+    void showEvent(QShowEvent *event) override;
 };

@@ -15,8 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
     serial(new QSerialPort(this))
 {
     ui->setupUi(this);
-    console->setEnabled(false);
-    setCentralWidget(console);
+
+    QGroupBox *box = ui->centralWidget->findChild<QGroupBox*>("groupBox");
+    if (box) {
+        QLayout *layout = ui->groupBox->layout();
+        layout->addWidget(console);
+    }
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
@@ -53,7 +57,6 @@ void MainWindow::openSerialPort()
     serial->setFlowControl(p.flowControl);
     if (serial->open(QIODevice::ReadWrite)) {
         console->setEnabled(true);
-        console->setLocalEchoEnabled(p.localEchoEnabled);
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
         ui->actionConfigure->setEnabled(false);
@@ -71,7 +74,6 @@ void MainWindow::closeSerialPort()
 {
     if (serial->isOpen())
         serial->close();
-    console->setEnabled(false);
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
@@ -137,4 +139,10 @@ void MainWindow::showStatusMessage(const QString &message)
 void MainWindow::showWriteError(const QString &message)
 {
     QMessageBox::warning(this, tr("Warning"), message);
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    QMainWindow::showEvent(event);
+    this->setFixedWidth(this->width());
 }

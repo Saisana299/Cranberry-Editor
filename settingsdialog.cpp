@@ -55,8 +55,16 @@ void SettingsDialog::showPortInfo(int idx)
     ui->pidLabel->setText(tr("Product Identifier: %1").arg(list.value(6, blankString)));
 }
 
+void SettingsDialog::showEvent(QShowEvent *event)
+{
+    QDialog::showEvent(event);
+    setFixedSize(this->size());
+}
+
 void SettingsDialog::apply()
 {
+    setMinimumSize(0, 0);
+    setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     updateSettings();
     hide();
 }
@@ -165,6 +173,4 @@ void SettingsDialog::updateSettings()
     const auto flowControlData = ui->flowControlBox->currentData();
     currentSettings.flowControl = flowControlData.value<QSerialPort::FlowControl>();
     currentSettings.stringFlowControl = ui->flowControlBox->currentText();
-
-    currentSettings.localEchoEnabled = ui->localEchoCheckBox->isChecked();
 }

@@ -13,6 +13,7 @@ qt_add_executable(Cranberry-Editor
     mainwindow.ui
     settingsdialog.h settingsdialog.cpp settingsdialog.ui
     console.h console.cpp
+
 )
 
 target_link_libraries(Cranberry-Editor

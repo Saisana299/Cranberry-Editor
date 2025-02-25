@@ -41,7 +41,6 @@ public:
         QString stringStopBits;
         QSerialPort::FlowControl flowControl;
         QString stringFlowControl;
-        bool localEchoEnabled;
     };
 
     explicit SettingsDialog(QWidget *parent = nullptr);
@@ -64,4 +63,7 @@ private:
     Ui::SettingsDialog *ui = nullptr;
     Settings currentSettings;
     QIntValidator *intValidator = nullptr;
+
+protected:
+    void showEvent(QShowEvent* event) override;
 };
